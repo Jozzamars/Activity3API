@@ -27,4 +27,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::delete('products/{id}', [ProductController::class, 'destroy']);
 //Route::apiResource('products', ProductController::class);
 
-//export PATH=/opt/lampp/bin:$PATH
+//export PATH=/opt/lampp/bin:$PATHuse Illuminate\Http\Request;
+
+Route::get('/test', function () {
+    return response()->json(['message' => 'GET request']);
+})->middleware('token.checker');
+
+Route::post('/test', function () {
+    return response()->json(['message' => 'POST request']);
+})->middleware('token.checker');
+
+Route::put('/test', function () {
+    return response()->json(['message' => 'PUT request']);
+})->middleware('token.checker');
+
+Route::patch('/test', function () {
+    return response()->json(['message' => 'PATCH request']);
+})->middleware('token.checker');
+
+Route::delete('/test', function () {
+    return response()->json(['message' => 'DELETE request']);
+})->middleware('token.checker');
+

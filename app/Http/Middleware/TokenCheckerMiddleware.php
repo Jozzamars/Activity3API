@@ -4,24 +4,32 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class TokenCheckerMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        // Get token in env variables
-        $token=env('TOKEN');
-        // Header Key = Authorization Value = TOKEN, if not authorized cannot pass to routes and status 404 not authorized
-        if($request->header('Authorization') !== $token){
-            return response()->json(['Unauthorized' => 'You are not authorized!'], 404);
+        // Retrieve the bearer token from the request headers
+        $token = $request->bearerToken();
+
+        // Check if the bearer token is missing
+        if (!$token) {
+            return response()->json(['error' => 'Unauthorized. Token missing.'], 401);
         }
+
+        // Check if the bearer token matches the expected token
+        if ($token !== env('BEARER_TOKEN')) {
+            return response()->json(['error' => 'Unauthorized. Invalid token.'], 401);
+        }
+
+        // Token is valid, proceed with the request
         return $next($request);
     }
-    
 }
