@@ -25,4 +25,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::get('/products/{id}', [ProductController::class, 'show']);
 // Route::put('products/{id}', [ProductController::class, 'update']);
 // Route::delete('products/{id}', [ProductController::class, 'destroy']);
-Route::apiResource('products', ProductController::class);
+//Route::apiResource('products', ProductController::class);
+
+//export PATH=/opt/lampp/bin:$PATH
